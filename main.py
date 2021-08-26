@@ -10,6 +10,7 @@ pygame.init()
 rojo = (250, 0, 0)
 gris = (90, 90, 90)
 blanco = (255, 255, 255)
+verde = (0, 250, 0)
 
 # para abrir el carchivo en modo lectura
 with open("puntaje_alto.txt", "r") as puntaje_f:
@@ -240,6 +241,9 @@ def main():
                 mano.diferencias_neta = -tolerancia
 
             jugador.x -= mano.diferencias_neta * 600
+            jugador.color = verde
+        else:
+            jugador.color = rojo
 
         # Actualizar pantalla
         screen_game.fill(gris)
@@ -273,7 +277,7 @@ def main():
         if muro[0].muerte:
             muro.pop(0)
 
-        if jugador.y + jugador.tamano == int(muro[0].y) and muro[0].puntos_v:
+        if jugador.y + jugador.tamano in range(int(muro[0].y) - 2, int(muro[0].y) + 2) and muro[0].puntos_v:
             jugador.punto_mas(muro[0].puntos_v)
             muro[0].puntos_v = False
         print_score(jugador.puntos)
