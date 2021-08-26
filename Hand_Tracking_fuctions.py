@@ -25,10 +25,14 @@ class hands_traking:
         # where returned is true
         self.angulo = angulo
         self.angle_result = 150
+        self.diferencias_neta = 0
 
     def camera_modelhand(self):
         # take photo to camera
         # self.cap = cv2.VideoCapture(0)
+        anterior = 0
+        if self.positions:
+            anterior = self.positions[8][0]
         self.positions = []
         # take image and if it was success
         success, img = self.cap.read()
@@ -51,6 +55,8 @@ class hands_traking:
                         # show figers point on screen
                         cv2.putText(img, str(ids), (int(lm.x * w), int(lm.y * h)), cv2.FONT_HERSHEY_PLAIN,
                                     1, (0, 0, 0), 2)
+
+                self.diferencias_neta = self.positions[8][0] - anterior
 
                 if self.show:
                     # draw conection between points

@@ -1,7 +1,7 @@
 import pygame
 # import time
 import numpy as np
-import Hand_Tracking_fuctions as htf
+import Hand_Tracking_fuctions as Htf
 
 # iniciar pygame
 pygame.init()
@@ -126,6 +126,13 @@ class ball:
         self.puntos = 0
 
     def dibujar_personaje(self):
+
+        if self.x >= screen_width - self.tamano:
+            self.x = screen_width - self.tamano
+
+        if self.x <= self.tamano:
+            self.x = self.tamano
+
         pygame.draw.circle(screen_game, self.color, (round(self.x), round(self.y)), self.tamano)
 
     def mover_derecha(self):
@@ -160,7 +167,7 @@ def main():
 
     clock.tick(30)
 
-    mano = htf.hands_traking(True, angulo=25)
+    mano = Htf.hands_traking(True, angulo=20)
     px_anterior = 0
     px_siguiente = 0
     diferencias = 0
@@ -225,10 +232,8 @@ def main():
         moverI = False
 
         if mano.actived():
-            px_siguiente = mano.positions[8][0] if mano.positions else 0
-            diferencias = px_siguiente - px_anterior
-            px_anterior = px_siguiente
-            jugador.x -= diferencias * 300
+
+            jugador.x -= mano.diferencias_neta * 450
 
         # Actualizar pantalla
         screen_game.fill(gris)
