@@ -90,12 +90,11 @@ def print_score(score):
 class obstacles:
     def __init__(self):
         self.color = blanco
-        self.velocidad = 100
+        self.velocidad = 3
         self.size_array = 20
         self.size_cuadro = 20
         self.y = 0
         self.cuadros = crear_bloque(self.size_array)
-        self.velocidad = 0.06
         self.muerte = False
         self.puntos_v = True
         self.contacto = []
@@ -258,7 +257,7 @@ def main():
                         puntaje_a.write(str(hiest))
 
         for i in muro:
-            if int(i.y) == int(screen_height * (3/5)):
+            if int(i.y) == int(screen_height * (1.5/5)):
                 i.y += 1
                 # crea un nuevo objeto dentro de muro para tener varios muros en pantalla
                 # este muro se activa cuando el primer muro pasa un punto en la pantalla
