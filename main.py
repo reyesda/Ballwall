@@ -1,6 +1,7 @@
 import pygame
 # import time
 import numpy as np
+import Hand_Tracking_fuctions as htf
 
 # iniciar pygame
 pygame.init()
@@ -18,8 +19,8 @@ with open("puntaje_alto.txt", "r") as puntaje_f:
 # Establecer pantalla
 screen_width, screen_height = 400, 700
 flags = pygame.NOFRAME
-# screen_game = pygame.display.set_mode((screen_width, screen_height), flags)
-screen_game = pygame.display.set_mode((screen_width, screen_height), flags=flags)
+screen_game = pygame.display.set_mode((screen_width, screen_height))
+# screen_game = pygame.display.set_mode((screen_width, screen_height), flags=flags)
 
 # formato de los textos
 score_font = pygame.font.SysFont('ubuntu', 25)
@@ -159,6 +160,11 @@ def main():
 
     clock.tick(30)
 
+    mano = htf.hands_traking(True, angulo=25)
+    px_anterior = 0
+    px_siguiente = 0
+    diferencias = 0
+
     while not game_over:
 
         while game_close:
@@ -210,10 +216,19 @@ def main():
                     moverD = True
                     moverI = False
 
-        if moverD:
-            jugador.mover_derecha()
-        elif moverI:
-            jugador.mover_izquierda()
+        # if moverD:
+        #     jugador.mover_derecha()
+        # elif moverI:
+        #     jugador.mover_izquierda()
+
+        moverD = False
+        moverI = False
+
+        if mano.actived():
+            px_siguiente = mano.positions[8][0] if mano.positions else 0
+            diferencias = px_siguiente - px_anterior
+            px_anterior = px_siguiente
+            jugador.x -= diferencias * 300
 
         # Actualizar pantalla
         screen_game.fill(gris)
