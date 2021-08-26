@@ -90,7 +90,7 @@ def print_score(score):
 class obstacles:
     def __init__(self):
         self.color = blanco
-        self.velocidad = 0.06
+        self.velocidad = 100
         self.size_array = 20
         self.size_cuadro = 20
         self.y = 0
@@ -165,9 +165,9 @@ def main():
     moverI = False
     moverD = False
 
-    clock.tick(30)
+    # clock.tick(30)
 
-    mano = Htf.hands_traking(True, angulo=20)
+    mano = Htf.hands_traking(angulo=20)
     px_anterior = 0
     px_siguiente = 0
     diferencias = 0
@@ -229,11 +229,18 @@ def main():
         #     jugador.mover_izquierda()
 
         moverD = False
-        moverI = False
+        moverI = True
 
         if mano.actived():
+            tolerancia = 0.04
 
-            jugador.x -= mano.diferencias_neta * 450
+            if mano.diferencias_neta > tolerancia:
+                mano.diferencias_neta = tolerancia
+
+            if mano.diferencias_neta < -tolerancia:
+                mano.diferencias_neta = -tolerancia
+
+            jugador.x -= mano.diferencias_neta * 600
 
         # Actualizar pantalla
         screen_game.fill(gris)
@@ -251,7 +258,7 @@ def main():
                         puntaje_a.write(str(hiest))
 
         for i in muro:
-            if int(i.y) == int(screen_height * (1.5/5)):
+            if int(i.y) == int(screen_height * (3/5)):
                 i.y += 1
                 # crea un nuevo objeto dentro de muro para tener varios muros en pantalla
                 # este muro se activa cuando el primer muro pasa un punto en la pantalla
